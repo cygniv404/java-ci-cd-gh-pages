@@ -95,10 +95,10 @@ on:
 
 jobs:
   test:
-    runs-on: ubuntu-latest  # Error: No matrix is defined
+    runs-on: ubuntu-lates
     strategy:
       matrix:
-        os: [ubuntu-latest]  # Error: Only one OS version is included
+        os: [ubuntu-latest]
 
     steps:
     - name: Checkout code
