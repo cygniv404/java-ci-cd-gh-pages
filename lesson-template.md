@@ -1,69 +1,134 @@
-# Lesson Title
-
 ## Lesson Overview :pencil2:
 
-[🚨 to be removed, only for SME eyes🚨 - start]
-*The Lesson Overview provides a brief summary of the main topics and themes covered in the lesson. It acts as a roadmap for both instructors and learners, giving them an idea of what to expect.*
+In this lesson, participants will learn the essential concepts of Continuous Integration and Continuous Deployment (CI/CD), as well as how to implement a basic CI/CD pipeline using GitHub Actions, a powerful and versatile automation tool built directly into GitHub.
 
-*In this lesson, we will delve into [briefly describe the main theme or topic]. Through a combination of theoretical explanations and practical examples, participants will gain a solid understanding of [insert key concepts].*
-[🚨 to be removed, only for SME eyes🚨 - end]
-
-<br>  <!-- don't remove -->
-
-## Learning Objectives :notebook:
-
-[🚨 to be removed, only for SME eyes🚨 - start]
-*Learning Objectives clearly define the specific skills or knowledge that participants should acquire by the end of the lesson. These objectives serve as measurable outcomes and guide the development of lesson content. All learning objectives should start with some verb (action). Check the pdf "Blooms Taxonomy Handout" to learn more about this.*
-[🚨 to be removed, only for SME eyes🚨 - end]
-
-By the end of this lesson, you will be able to:
-
-1. Learning Objective 1 [🚨 Provide a concise statement of the first objective. 🚨]
-2. Learning Objective 2: [🚨 Describe the second objective, ensuring clarity and specificity.🚨]
-3. Learning Objective 3: [🚨 Continue with subsequent objectives, maintaining a logical progression.🚨]
-4. Learning Objective 4: [🚨 Add more objectives if necessary, but keep the total number reasonable.🚨]
-5. Learning Objective 5: [🚨 Finalize the list of objectives, ensuring they align with the overall goals of the lesson.🚨]
+GitHub Actions is an ideal choice for developers looking to automate their workflows, enabling automatic testing, building, and deployment of applications with minimal configuration. Throughout the session, you will be introduced to the importance of CI/CD in modern software development, how to set up a simple GitHub Actions workflow, and automate testing and deployment processes to streamline their projects.
 
 <br>
 
+## Learning Objectives :notebook:
+
+By the end of this lesson, you will be able to:
+
+1. Understand the concepts of Continuous Integration (CI) and Continuous Deployment (CD).
+2. Learn how to set up GitHub Actions workflows.
+3. Create and run a GitHub Actions workflow to automate tests and build steps.
+
+
 ## Key Definitions and Examples :key:
 
-### Concept 1 Definition
+1. **Continuous Integration (CI)**:
+CI is a software development practice where developers regularly merge code changes into a shared repository. Each integration is automatically verified by running tests to detect issues early.
+**Example:**
+Imagine a developer working on a feature branch for a Java application. Every time they push changes, a CI pipeline runs unit tests using JUnit to verify that their changes don’t break existing functionality. If the tests fail, the developer is immediately notified and can fix the issue before merging the code.
+2. **Continuous Deployment (CD)**:
+    CD automates the deployment of code changes to production. Once the tests pass in the CI phase, the new version is automatically deployed to production without manual intervention.
 
-[🚨 to be removed, only for SME eyes🚨 - start]
-[*Define the first concept in clear and straightforward language. Use this section to provide the foundational knowledge necessary for understanding the examples.*]
-[🚨 to be removed, only for SME eyes🚨 - end]
-<br>  <!-- don't remove -->
+    **Example:**
+    After the code passes all tests, the CD pipeline automatically deploys the new version of an app to a live environment, like a cloud server.
+3. **GitHub Actions**:
+    GitHub Actions is a CI/CD tool built directly into GitHub repositories. It allows you to define automated workflows using simple configuration files.
 
-#### Concept 1 Example
+    **Example:**
+    A GitHub Actions workflow file ```(.github/workflows/ci.yml)``` might run a set of unit tests using Maven and JUnit every time new code is pushed to the repository, ensuring that all changes pass the tests before they are merged.
+<br>
 
-[🚨 to be removed, only for SME eyes🚨 - start]
-[*Present a relevant example or code snippet that illustrates Concept 1. Ensure that the example aligns with the learning objectives and helps participants apply the theoretical knowledge.*]
-[🚨 to be removed, only for SME eyes🚨 - end]
+### Detailed Steps for Creating a GitHub Actions CI/CD Pipeline:
 
-<br>  <!-- don't remove -->
+1. **Step 1: Create a GitHub Repository** 
+* Start by creating a new repository on GitHub.
+* Clone the repository to your local machine, or work directly in the GitHub web interface.
+2. **Step 2: Add a Workflow Configuration File** * In the root of the repository, create a `.github` directory, and within that, create a `workflows` directory.
+* Inside the workflows directory, create a file named `ci.yml`.
+3. **Step 3: Define a Basic CI Workflow** 
+Open ci.yml and add the following content:
+    ```yaml
+    name: Java CI with Maven
 
-### Concept 2 Definition
+    on:
+    push:
+        branches:
+        - main
 
-[🚨 to be removed, only for SME eyes🚨 - start]
-[*Repeat the process for Concept 2, maintaining a consistent structure for clarity.*]
-[🚨 to be removed, only for SME eyes🚨 - end]
+    jobs:
+    build:
+        runs-on: ubuntu-latest
 
-<br>  <!-- don't remove -->
+        steps:
+        - name: Checkout code
+        uses: actions/checkout@v2
 
-#### Concept 2 Example
+        - name: Set up JDK 11
+        uses: actions/setup-java@v2
+        with:
+            java-version: '11'
 
-[🚨 to be removed, only for SME eyes🚨 - start]
-[*Provide a practical example or code demonstration for Concept 2. Make sure the example reinforces the associated learning objectives.*]
-[🚨 to be removed, only for SME eyes🚨 - end]
+        - name: Build with Maven
+        run: mvn -B package --file pom.xml
 
-<br>  <!-- don't remove -->
+        - name: Run tests
+        run: mvn test
 
-<!-- Continue adding concepts and examples as needed -->
+    ```
+
+    **Explanation**:
+
+    * `on: push`: This triggers the workflow when changes are pushed to the ``main`` branch.
+    * `jobs: build`: A job that runs on an Ubuntu server.
+    * The steps inside the job:
+        1. **Checkout Code**: Downloads the code from the repository.
+        2. **Set Up JDK 11**: Configures the workflow to use Java Development Kit version 11
+        3. **Build with Maven**: Uses Maven to build the Java project, running the mvn package command.
+        4. **Run Tests**: Runs the unit tests defined in the project using Maven’s mvn test.
+    <br/>
+
+4. **Step 4: Push Changes and See the Workflow in Action** 
+    * Add a simple ``pox.xml`` file with a test script. For example:
+        ```xml
+        <project xmlns="http://maven.apache.org/POM/4.0.0"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
+        http://maven.apache.org/xsd/maven-4.0.0.xsd">
+            <modelVersion>4.0.0</modelVersion>
+
+            <groupId>com.example</groupId>
+            <artifactId>ci-demo</artifactId>
+            <version>1.0-SNAPSHOT</version>
+
+            <dependencies>
+                <dependency>
+                    <groupId>junit</groupId>
+                    <artifactId>junit</artifactId>
+                    <version>4.13.2</version>
+                    <scope>test</scope>
+                </dependency>
+            </dependencies>
+
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-compiler-plugin</artifactId>
+                        <version>3.8.1</version>
+                        <configuration>
+                            <source>11</source>
+                            <target>11</target>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </project>
+    
+    * Push your changes to GitHub.
+    * Go to the "Actions" tab in your GitHub repository to see the CI pipeline running.
+
+<br>
 
 ## Additional Resources :clipboard: 
 
 If you would like to study these concepts before the class or would benefit from some remedial studying, please utilize the resources below:
 
-- [External resource 1](link-to-external-resource-1)
-- [External resource 2](link-to-external-resource-2)
+- [CI/CD: The what, why, and how](https://github.com/resources/articles/devops/ci-cd)
+- [YAML Syntax Documentation](https://docs.ansible.com/ansible/latest/reference_appendices/YAMLSyntax.html)
+- [GitHub Training Kit](https://flask.palletsprojects.com/en/3.0.x/tutorial/)
+- [GitHub Actions Documentations](https://docs.github.com/en/actions)
