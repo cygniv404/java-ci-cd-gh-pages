@@ -45,6 +45,7 @@ jobs:
          uses: actions/download-artifact@v3
          with:
             name: javadoc  # Download the previously uploaded artifact
+            path: ./javadoc
        
        - name: tests
          run: ls -R ./  
