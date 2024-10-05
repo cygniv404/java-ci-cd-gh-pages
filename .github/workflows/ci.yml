@@ -23,7 +23,7 @@ jobs:
          run: mvn -B package --file pox.xml
 
        - name: Generate Javadoc
-         run: mvn javadoc:javadoc
+         run: mvn -f pox.xml javadoc:javadoc
    
        - name: Run tests
          run: mvn -f pox.xml test
