@@ -55,7 +55,35 @@ package com.example;
 
 public class App {
     public static void main(String[] args) {
-        System.out.println("Hello, GitHub Pages Deployment!");
+        System.out.println(getMessage());
+    }
+
+    public static String getMessage() {
+        return "Hello, GitHub Pages Deployment!";
+    }
+}
+```
+
+``src/test/java/com/example/AppTest.java``:
+
+```java
+package com.example;
+
+import org.junit.Test;
+import static org.junit.Assert.*;
+
+public class AppTest {
+
+    @Test
+    public void testApp() {
+        // This test will always pass
+        assertTrue(true);
+    }
+
+    @Test
+    public void testAppMessage() {
+        App app = new App();
+        assertEquals("Hello, GitHub Pages Deployment!", App.main(new String[0]));
     }
 }
 ```
@@ -133,6 +161,7 @@ jobs:
          uses: actions/setup-java@v2
          with:
            java-version: '11'
+           distribution: 'microsoft'
    
        - name: Build with Maven
          run: mvn -B package --file pox.xml
@@ -162,7 +191,7 @@ jobs:
 **Important**:
 
 You need to configure the GitHub Pages settings in your repository by enabling it under ``Settings > Pages``. Select the ``gh-pages`` branch as the source for GitHub Pages.
-Add a ``GITHUB_TOKEN`` secret in your repository under ``Settings > Secrets and variables > Actions``.
+Add your creatred [``GITHUB_TOKEN``]() secret in your repository under ``Settings > Secrets and variables > Actions``.
 ### Generate Static Content for GitHub Pages Deployment
 
 In this step, you will modify the Maven ``pox.xml`` to generate static site content (like Javadoc or HTML files) that can be deployed to GitHub Pages.
