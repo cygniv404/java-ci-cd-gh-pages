@@ -13,7 +13,7 @@ public class AppTest {
 
     @Test
     public void testAppMessage() {
-        App app = new App();
-        assertEquals("Hello, GitHub Pages Deployment!", App.main(new String[0]));
+        String expectedMessage = "Hello, GitHub Pages Deployment!";
+        assertEquals(expectedMessage, App.getMessage());
     }
 }
