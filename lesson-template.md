@@ -44,30 +44,31 @@ Imagine a developer working on a feature branch for a Java application. Every ti
 Open ci.yml and add the following content:
     ```yaml
     name: Java CI with Maven
-
+    
     on:
-    push:
+      push:
         branches:
-        - main
-
+          - main
+    
     jobs:
-    build:
+      build:
         runs-on: ubuntu-latest
-
+    
         steps:
-        - name: Checkout code
-        uses: actions/checkout@v2
-
-        - name: Set up JDK 11
-        uses: actions/setup-java@v2
-        with:
-            java-version: '11'
-
-        - name: Build with Maven
-        run: mvn -B package --file pom.xml
-
-        - name: Run tests
-        run: mvn test
+          - name: Checkout code
+            uses: actions/checkout@v2
+    
+          - name: Set up JDK 11
+            uses: actions/setup-java@v2
+            with:
+              java-version: '11'
+              distribution: 'microsoft'
+    
+          - name: Build with Maven
+            run: mvn -B package --file pox.xml
+    
+          - name: Validate Maven Project
+            run: mvn validate --file pox.xml
 
     ```
 
@@ -79,11 +80,11 @@ Open ci.yml and add the following content:
         1. **Checkout Code**: Downloads the code from the repository.
         2. **Set Up JDK 11**: Configures the workflow to use Java Development Kit version 11
         3. **Build with Maven**: Uses Maven to build the Java project, running the mvn package command.
-        4. **Run Tests**: Runs the unit tests defined in the project using Maven’s mvn test.
+        4. **Run Validation**: validates the project's ``pox.xml``.
     <br/>
 
 4. **Step 4: Push Changes and See the Workflow in Action** 
-    * Add a simple ``pox.xml`` file with a test script. For example:
+    * Add a simple ``pox.xml`` file. For example:
         ```xml
         <project xmlns="http://maven.apache.org/POM/4.0.0"
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -94,15 +95,6 @@ Open ci.yml and add the following content:
             <groupId>com.example</groupId>
             <artifactId>ci-demo</artifactId>
             <version>1.0-SNAPSHOT</version>
-
-            <dependencies>
-                <dependency>
-                    <groupId>junit</groupId>
-                    <artifactId>junit</artifactId>
-                    <version>4.13.2</version>
-                    <scope>test</scope>
-                </dependency>
-            </dependencies>
 
             <build>
                 <plugins>
