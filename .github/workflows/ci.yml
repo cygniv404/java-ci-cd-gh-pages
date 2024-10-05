@@ -24,8 +24,7 @@ jobs:
 
        - name: Generate Javadoc
          run: mvn -f pox.xml javadoc:javadoc
-       - name: tests
-         run: ls -R ./target/site  
+ 
        - name: Run tests
          run: mvn -f pox.xml test
 
@@ -35,7 +34,9 @@ jobs:
     steps:
        - name: Checkout code
          uses: actions/checkout@v2
-   
+
+       - name: tests
+         run: ls -R ./target/site  
        - name: Deploy to GitHub Pages
          uses: peaceiris/actions-gh-pages@v4
          with:
