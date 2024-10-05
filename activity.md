@@ -16,7 +16,7 @@ It is important to understand the reasoning behind the solution in order to impr
 
 <br>
 
-* The CI pipeline is set up to run on a specific event, but the trigger is misconfigured. Your task is to fix the event trigger so that the pipeline runs correctly when code is **pushed** to the ``main`` branch.
+* The current CI pipeline is designed to execute in response to a particular event, but there is a misalignment in the configuration of the trigger mechanism. Your objective is to modify the trigger such that the pipeline activates properly when updates are applied to the ``main`` branch.
 
 **Current ``ci.yml`` File:**
 ```yaml
@@ -32,11 +32,11 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
-
-    - name: Build the project
-      run: echo "Building the project..."
+      - name: Checkout code
+        uses: actions/checkout@v2
+  
+      - name: Build the project
+        run: echo "Building the project..."
 
 ```
 <br>
@@ -63,11 +63,11 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
-
-    - name: Build the project
-      run: echo "Building the project..."
+      - name: Checkout code
+        uses: actions/checkout@v2
+  
+      - name: Build the project
+        run: echo "Building the project..."
 
 
 ```
@@ -95,17 +95,17 @@ on:
 
 jobs:
   test:
-    runs-on: ubuntu-lates
+    runs-on: ubuntu-latest
     strategy:
       matrix:
         os: [ubuntu-latest]
 
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
-
-    - name: Run tests
-      run: echo "Running tests on matrix"
+      - name: Checkout code
+        uses: actions/checkout@v2
+  
+      - name: Run tests
+        run: echo "Running tests on matrix"
 ```
 <br>
 
@@ -134,10 +134,10 @@ jobs:
         os: [ubuntu-18.04, ubuntu-20.04]  # Fix: Add multiple OS versions
 
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
-
-    - name: Run tests
-      run: echo "Running tests on matrix"
+      - name: Checkout code
+        uses: actions/checkout@v2
+  
+      - name: Run tests
+        run: echo "Running tests on matrix"
 ```
 </details>
