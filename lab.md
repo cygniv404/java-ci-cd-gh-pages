@@ -165,7 +165,16 @@ jobs:
    
        - name: Build with Maven
          run: mvn -B package --file pox.xml
-   
+
+       - name: Generate Javadoc
+         run: mvn -f pox.xml javadoc:javadoc
+         
+       - name: Upload Javadoc as an artifact
+         uses: actions/upload-artifact@v3
+         with:
+           name: javadoc
+           path: ./target/site/apidocs  # Upload the generated site directory      
+       
        - name: Run tests
          run: mvn -f pox.xml test
 
@@ -175,12 +184,18 @@ jobs:
     steps:
        - name: Checkout code
          uses: actions/checkout@v2
-   
+         
+       - name: Download Javadoc artifact
+         uses: actions/download-artifact@v3
+         with:
+            name: javadoc  # Download the previously uploaded artifact
+            path: ./javadoc
+       
        - name: Deploy to GitHub Pages
          uses: peaceiris/actions-gh-pages@v4
          with:
            github_token: ${{ secrets.PERSONAL_TOKEN }}
-           publish_dir: ./target/site  # Assuming you are deploying static content from the site directory
+           publish_dir: ./javadoc  # Assuming you are deploying static content from the site directory
 
 ```
 **Explanation**:
