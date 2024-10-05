@@ -177,9 +177,9 @@ jobs:
          uses: actions/checkout@v2
    
        - name: Deploy to GitHub Pages
-         uses: peaceiris/actions-gh-pages@v3
+         uses: peaceiris/actions-gh-pages@v4
          with:
-           github_token: ${{ secrets.GITHUB_TOKEN }}
+           github_token: ${{ secrets.PERSONAL_TOKEN }}
            publish_dir: ./target/site  # Assuming you are deploying static content from the site directory
 
 ```
@@ -189,9 +189,11 @@ jobs:
 * **Deploy Job**: After the build completes, this job deploys static content (e.g., generated documentation or HTML files) to GitHub Pages.
 
 **Important**:
+You create a new branch called ``gh-pages``.
+You need to configure the GitHub Pages settings in your repository by enabling it under ``Settings > Pages``. Select the ``gh-pages`` branch as the source for GitHub Pages then save.
+You [Generate a personal access token (repo)](https://github.com/settings/tokens).
+Add your ``PERSONAL_TOKEN`` secret in your repository under ``Settings > Secrets and variables > Actions``.
 
-You need to configure the GitHub Pages settings in your repository by enabling it under ``Settings > Pages``. Select the ``gh-pages`` branch as the source for GitHub Pages.
-Add your creatred [``GITHUB_TOKEN``]() secret in your repository under ``Settings > Secrets and variables > Actions``.
 ### Generate Static Content for GitHub Pages Deployment
 
 In this step, you will modify the Maven ``pox.xml`` to generate static site content (like Javadoc or HTML files) that can be deployed to GitHub Pages.
