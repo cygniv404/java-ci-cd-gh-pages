@@ -82,8 +82,8 @@ public class AppTest {
 
     @Test
     public void testAppMessage() {
-        App app = new App();
-        assertEquals("Hello, GitHub Pages Deployment!", App.main(new String[0]));
+        String expectedMessage = "Hello, GitHub Pages Deployment!";
+        assertEquals(expectedMessage, App.getMessage());
     }
 }
 ```
@@ -167,7 +167,7 @@ jobs:
          run: mvn -B package --file pox.xml
    
        - name: Run tests
-         run: mvn test
+         run: mvn -f pox.xml test
 
   deploy:
     runs-on: ubuntu-latest
