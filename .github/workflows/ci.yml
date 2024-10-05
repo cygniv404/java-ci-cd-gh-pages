@@ -24,7 +24,8 @@ jobs:
 
        - name: Generate Javadoc
          run: mvn -f pox.xml javadoc:javadoc
-   
+       - name: tests
+         run: ls -R ./target/site  
        - name: Run tests
          run: mvn -f pox.xml test
 
