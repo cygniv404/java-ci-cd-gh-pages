@@ -47,7 +47,7 @@ jobs:
             name: javadoc  # Download the previously uploaded artifact
        
        - name: tests
-         run: ls -R ./target/site  
+         run: ls -R ./  
          
        - name: Deploy to GitHub Pages
          uses: peaceiris/actions-gh-pages@v4
