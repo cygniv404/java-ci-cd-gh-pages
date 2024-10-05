@@ -60,7 +60,7 @@ public class App {
 }
 ```
 
-``pom.xml``:
+``pox.xml``:
 
 ```xml
 <project xmlns="http://maven.apache.org/POM/4.0.0"
@@ -126,32 +126,32 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
-
-    - name: Set up JDK 11
-      uses: actions/setup-java@v2
-      with:
-        java-version: '11'
-
-    - name: Build with Maven
-      run: mvn -B package --file pom.xml
-
-    - name: Run tests
-      run: mvn test
+       - name: Checkout code
+         uses: actions/checkout@v2
+   
+       - name: Set up JDK 11
+         uses: actions/setup-java@v2
+         with:
+           java-version: '11'
+   
+       - name: Build with Maven
+         run: mvn -B package --file pox.xml
+   
+       - name: Run tests
+         run: mvn test
 
   deploy:
     runs-on: ubuntu-latest
     needs: build
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
-
-    - name: Deploy to GitHub Pages
-      uses: peaceiris/actions-gh-pages@v3
-      with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
-        publish_dir: ./target/site  # Assuming you are deploying static content from the site directory
+       - name: Checkout code
+         uses: actions/checkout@v2
+   
+       - name: Deploy to GitHub Pages
+         uses: peaceiris/actions-gh-pages@v3
+         with:
+           github_token: ${{ secrets.GITHUB_TOKEN }}
+           publish_dir: ./target/site  # Assuming you are deploying static content from the site directory
 
 ```
 **Explanation**:
@@ -165,9 +165,9 @@ You need to configure the GitHub Pages settings in your repository by enabling i
 Add a ``GITHUB_TOKEN`` secret in your repository under ``Settings > Secrets and variables > Actions``.
 ### Generate Static Content for GitHub Pages Deployment
 
-In this step, you will modify the Maven ``pom.xml`` to generate static site content (like Javadoc or HTML files) that can be deployed to GitHub Pages.
+In this step, you will modify the Maven ``pox.xml`` to generate static site content (like Javadoc or HTML files) that can be deployed to GitHub Pages.
 
-Add the following to your ``pom.xml`` to generate the Javadoc site:
+Add the following to your ``pox.xml`` to generate the Javadoc site:
 
 ```xml
 <build>
