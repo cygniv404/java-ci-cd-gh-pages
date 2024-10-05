@@ -23,7 +23,7 @@ jobs:
          run: mvn -B package --file pox.xml
    
        - name: Run tests
-         run: mvn test
+         run: mvn -f pox.xml test
 
   deploy:
     runs-on: ubuntu-latest
