@@ -41,53 +41,52 @@ Follow [this link](https://github.com/cygniv404/java-ci-cd-gh-pages) to get to t
 
 ###  Create a Java Project
 1. **Create a New Repository:**
-
     * Go to GitHub and create a new public repository (e.g., ``java-ci-cd-github-pages``).`
 2. **Clone the Repository:**
-
-Clone the repository to your local machine:
-```bash
-git clone https://github.com/YOUR_USERNAME/java-ci-cd-github-pages.git
-```
+   Clone the repository to your local machine:
+   ```bash
+   git clone https://github.com/YOUR_USERNAME/java-ci-cd-github-pages.git
+   ```
 3. **Create a Simple Java Application:** 
-In the root directory of your repository, create the following files:
-
-* Java Class ``src/main/java/com/example/App.java``:
-   - Have a main method that prints a message to the console.
-   - Have a static method that returns a string message, which will later be used for testing.
-   - For example, think of a method that returns a greeting message like “Hello, GitHub Pages       Deployment!”.
- 
-* Test Class using **JUnit** ``src/test/java/com/example/AppTest.java``:
-   Write two test methods:
-     - One that always passes (a basic sanity check).
-     - Another that checks if the message returned by your method is correct.
-* Set up Maven ``pom.xml``:
-   - In the root of your repository, create a Maven POM file (pom.xml). This file manages           dependencies and plugins for your project. Include dependencies for JUnit and Maven            compiler to compile Java code and run tests.
-   - Configure Maven to use Java version 11.
+   In the root directory of your repository, create the following files:
+   
+   * Java Class ``src/main/java/com/example/App.java``:
+      - Have a main method that prints a message to the console.
+      - Have a static method that returns a string message, which will later be used for testing.
+      - For example, think of a method that returns a greeting message like “Hello, GitHub Pages       Deployment!”.
+    
+   * Test Class using **JUnit** ``src/test/java/com/example/AppTest.java``:
+      Write two test methods:
+        - One that always passes (a basic sanity check).
+        - Another that checks if the message returned by your method is correct.
+   * Set up Maven ``pom.xml``:
+      - In the root of your repository, create a Maven POM file (pom.xml). This file manages dependencies and plugins for your project. Include          
+        dependencies for JUnit and Maven compiler to compile Java code and run tests.
+      - Configure Maven to use Java version 11.
 
 ### Setting Up GitHub Actions Workflow
-Your goal is to automate the build and deployment process with GitHub Actions. You will create a workflow that:
-
-1. **Builds the Java Project** using Maven.
-2. **Runs Unit Tests** to ensure the code works as expected.
-3. **Deploys Static Content** (e.g., a simple HTML or documentation output) to GitHub Pages.
+   Your goal is to automate the build and deployment process with GitHub Actions. You will create a workflow that:
+   
+   1. **Builds the Java Project** using Maven.
+   2. **Runs Unit Tests** to ensure the code works as expected.
+   3. **Deploys Static Content** (e.g., a simple HTML or documentation output) to GitHub Pages.
 
 #### **Create a Workflow File:**
 
-* In your repository, create a ``.github/workflows/`` directory.
-* Inside the workflows directory, create a file called ``ci.yml``.
+   * In your repository, create a ``.github/workflows/`` directory.
+   * Inside the workflows directory, create a file called ``ci.yml``.
 
 **Explanation**:
 
-* **Build Job**: This step compiles the Java project, crates javadoc static files and runs unit tests using Maven.
-* **Deploy Job**: After the build completes, this job deploys static content (from the Build job) to GitHub Pages.
+   * **Build Job**: This step compiles the Java project, crates static files and runs unit tests using Maven.
+   * **Deploy Job**: After the build completes, this job deploys static content (from the Build job) to GitHub Pages.
 
 **Important**:
 
-You need to create a new branch called ``gh-pages``.
-You need to configure the GitHub Pages settings in your repository by enabling it under ``Settings > Pages``. Select the ``gh-pages`` branch as the source for GitHub Pages then save.
-You [Generate a personal access token (repo)](https://github.com/settings/tokens).
-Add your ``PERSONAL_TOKEN`` secret in your repository under ``Settings > Secrets and variables > Actions``.
+   You need to create a new branch called ``gh-pages``.
+   You need to configure the GitHub Pages settings in your repository by enabling it under ``Settings > Pages``. Select the ``gh-pages`` branch as the source for GitHub Pages then save.
+   You [Generate a personal access token (repo)](https://github.com/settings/tokens).
+   Add your ``PERSONAL_TOKEN`` secret in your repository under ``Settings > Secrets and variables > Actions``.
 
 ###  Test the GitHub Pages Deployment
 
