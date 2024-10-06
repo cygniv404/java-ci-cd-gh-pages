@@ -33,6 +33,10 @@ Follow the guided lesson in the notebook and complete the tasks.
 
 Once you finish the assignment, submit a GitHub repository link on Student Portal. (**Reminder**: The link to your GitHub repository needs to be public.)
 
+## Solution
+
+Follow [this link](https://github.com/cygniv404/java-ci-cd-gh-pages) to get to the repository with a working solution.
+
 ## Tasks
 
 ###  Create a Java Project
@@ -48,85 +52,18 @@ git clone https://github.com/YOUR_USERNAME/java-ci-cd-github-pages.git
 3. **Create a Simple Java Application:** 
 In the root directory of your repository, create the following files:
 
-``src/main/java/com/example/App.java``:
-
-```java
-package com.example;
-
-public class App {
-    public static void main(String[] args) {
-        System.out.println(getMessage());
-    }
-
-    public static String getMessage() {
-        return "Hello, GitHub Pages Deployment!";
-    }
-}
-```
-
-``src/test/java/com/example/AppTest.java``:
-
-```java
-package com.example;
-
-import org.junit.Test;
-import static org.junit.Assert.*;
-
-public class AppTest {
-
-    @Test
-    public void testApp() {
-        // This test will always pass
-        assertTrue(true);
-    }
-
-    @Test
-    public void testAppMessage() {
-        String expectedMessage = "Hello, GitHub Pages Deployment!";
-        assertEquals(expectedMessage, App.getMessage());
-    }
-}
-```
-
-``pox.xml``:
-
-```xml
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
-         http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <modelVersion>4.0.0</modelVersion>
-
-    <groupId>com.example</groupId>
-    <artifactId>ci-demo</artifactId>
-    <version>1.0-SNAPSHOT</version>
-
-    <dependencies>
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>4.13.2</version>
-            <scope>test</scope>
-        </dependency>
-    </dependencies>
-
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.8.1</version>
-                <configuration>
-                    <source>11</source>
-                    <target>11</target>
-                </configuration>
-            </plugin>
-        </plugins>
-    </build>
-</project>
-```
-This creates a basic Maven project that will be used to build, test, and deploy to GitHub Pages.
-
+* Java Class ``src/main/java/com/example/App.java``:
+   - Have a main method that prints a message to the console.
+   - Have a static method that returns a string message, which will later be used for testing.
+   - For example, think of a method that returns a greeting message like “Hello, GitHub Pages       Deployment!”.
+ 
+* Test Class using **JUnit** ``src/test/java/com/example/AppTest.java``:
+   Write two test methods:
+     - One that always passes (a basic sanity check).
+     - Another that checks if the message returned by your method is correct.
+* Set up Maven ``pom.xml``:
+   - In the root of your repository, create a Maven POM file (pom.xml). This file manages           dependencies and plugins for your project. Include dependencies for JUnit and Maven            compiler to compile Java code and run tests.
+   - Configure Maven to use Java version 11.
 
 ### Setting Up GitHub Actions Workflow
 Your goal is to automate the build and deployment process with GitHub Actions. You will create a workflow that:
@@ -135,105 +72,22 @@ Your goal is to automate the build and deployment process with GitHub Actions. Y
 2. **Runs Unit Tests** to ensure the code works as expected.
 3. **Deploys Static Content** (e.g., a simple HTML or documentation output) to GitHub Pages.
 
-**Task 1: Create a Workflow File**
+#### **Create a Workflow File:**
 
 * In your repository, create a ``.github/workflows/`` directory.
 * Inside the workflows directory, create a file called ``ci.yml``.
 
-Basic Structure of the ``ci.yml`` File:
-```yaml
-name: Java CI/CD with GitHub Pages
-
-on:
-  push:
-    branches:
-      - main
-
-jobs:
-  build:
-    runs-on: ubuntu-latest
-
-    steps:
-       - name: Checkout code
-         uses: actions/checkout@v2
-   
-       - name: Set up JDK 11
-         uses: actions/setup-java@v2
-         with:
-           java-version: '11'
-           distribution: 'microsoft'
-   
-       - name: Build with Maven
-         run: mvn -B package --file pox.xml
-
-       - name: Generate Javadoc
-         run: mvn -f pox.xml javadoc:javadoc
-         
-       - name: Upload Javadoc as an artifact
-         uses: actions/upload-artifact@v3
-         with:
-           name: javadoc
-           path: ./target/site/apidocs  # Upload the generated site directory      
-       
-       - name: Run tests
-         run: mvn -f pox.xml test
-
-  deploy:
-    runs-on: ubuntu-latest
-    needs: build
-    steps:
-       - name: Checkout code
-         uses: actions/checkout@v2
-         
-       - name: Download Javadoc artifact
-         uses: actions/download-artifact@v3
-         with:
-            name: javadoc  # Download the previously uploaded artifact
-            path: ./javadoc
-       
-       - name: Deploy to GitHub Pages
-         uses: peaceiris/actions-gh-pages@v4
-         with:
-           github_token: ${{ secrets.PERSONAL_TOKEN }}
-           publish_dir: ./javadoc  # Assuming you are deploying static content from the site directory
-
-```
 **Explanation**:
 
-* **Build Job**: This step compiles the Java project and runs unit tests using Maven.
-* **Deploy Job**: After the build completes, this job deploys static content (e.g., generated documentation or HTML files) to GitHub Pages.
+* **Build Job**: This step compiles the Java project, crates javadoc static files and runs unit tests using Maven.
+* **Deploy Job**: After the build completes, this job deploys static content (from the Build job) to GitHub Pages.
 
 **Important**:
-You create a new branch called ``gh-pages``.
+
+You need to create a new branch called ``gh-pages``.
 You need to configure the GitHub Pages settings in your repository by enabling it under ``Settings > Pages``. Select the ``gh-pages`` branch as the source for GitHub Pages then save.
 You [Generate a personal access token (repo)](https://github.com/settings/tokens).
 Add your ``PERSONAL_TOKEN`` secret in your repository under ``Settings > Secrets and variables > Actions``.
-
-### Generate Static Content for GitHub Pages Deployment
-
-In this step, you will modify the Maven ``pox.xml`` to generate static site content (like Javadoc or HTML files) that can be deployed to GitHub Pages.
-
-Add the following to your ``pox.xml`` to generate the Javadoc site:
-
-```xml
-<build>
-    <plugins>
-        <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-javadoc-plugin</artifactId>
-            <version>3.3.0</version>
-            <executions>
-                <execution>
-                    <goals>
-                        <goal>javadoc</goal>
-                    </goals>
-                </execution>
-            </executions>
-        </plugin>
-    </plugins>
-</build>
-```
-This configuration will generate Javadoc HTML files in the ``target/site`` directory, which will be deployed to GitHub Pages.
 
 ###  Test the GitHub Pages Deployment
 
